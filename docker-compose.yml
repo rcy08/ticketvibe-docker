@@ -4,26 +4,14 @@ services:
     image: 'redis:latest'
   nginx:
     restart: always
-    build: 
-      dockerfile: Dockerfile
-      context: ./nginx
+    image: rcy08/ticketvibe-nginx:latest
     ports:
-      - '3050:80'
+      - '80:80'
   api:
-    build: 
-      dockerfile: Dockerfile
-      context: ./server
-    volumes:
-      - /app/node_modules
-      - ./server:/app
+    image: rcy08/ticketvibe-server:latest
     env_file:
       - ./server/.env
   client:
-    build: 
-      dockerfile: Dockerfile
-      context: ./client
-    volumes:
-      - /app/node_modules
-      - ./client:/app
+    image: rcy08/ticketvibe-client:latest
     environment:
       - WDS_SOCKET_PORT=0
