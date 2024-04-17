@@ -46,6 +46,13 @@ pipeline {
                 }
             }
         }
+        stage('Run the application') {
+            steps {
+                script {
+                    bat 'docker-compose up --build'
+                }
+            }
+        }
     }
 }
 
