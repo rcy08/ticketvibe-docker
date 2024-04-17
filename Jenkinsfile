@@ -49,7 +49,18 @@ pipeline {
         stage('Run the application') {
             steps {
                 script {
-                    bat 'docker-compose up --build'
+                    withCredentials([file(credentialsId: 'ticketvibe-env', variable: 'envFile')]) {
+
+                        // Read the content of the secret file
+                        def content = readFile(file: "${envFile}")
+                        
+                        // Write the content to a .env file
+                        writeFile file: './server/.env', text: content
+
+                    }
+
+                    // Run the application
+                    bat 'docker-compose up --build -d'
                 }
             }
         }
